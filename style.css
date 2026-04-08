@@ -59,17 +59,23 @@ body {
 .logo {
     display: flex;
     align-items: center;
-    gap: 10px;
 }
 
-.logo h1 {
-    font-family: var(--font-heading);
-    font-size: 1.5rem;
-    color: var(--teal);
+.main-logo {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    transition: transform 0.3s ease;
 }
 
-.logo h1 span {
-    color: var(--orange);
+.main-logo:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .main-logo {
+        height: 36px;
+    }
 }
 
 .nav-menu {
