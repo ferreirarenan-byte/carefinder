@@ -631,6 +631,7 @@ function confirmBooking(caregiverId) {
     const cg = caregivers.find(c => c.id === caregiverId);
     const newBooking = {
         id: Date.now(),
+        caregiverId: caregiverId,
         caregiverName: cg.name,
         caregiverAvatar: cg.avatar,
         date: document.getElementById('book-date').value,
@@ -675,8 +676,10 @@ function openMyBookingsDrawer() {
                     </div>
                 </div>
                 <p style="font-size: 0.8rem;"><i data-lucide="calendar" style="width:12px"></i> ${b.date} às ${b.time} (${b.hours}h)</p>
-                <p style="font-size: 0.8rem; font-weight: 700;">Total: R$ ${b.total},00</p>
-                <button class="btn-text-link" style="font-size: 0.75rem; margin-top: 5px;" onclick="alert('Avaliação aberta!')">Avaliar Cuidador</button>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button class="btn-text-link" style="font-size: 0.75rem; flex: 1;" onclick="alert('Avaliação aberta!')">Avaliar Cuidador</button>
+                    <button class="btn-primary" style="font-size: 0.75rem; flex: 1; padding: 6px 12px;" onclick="openChatDrawer(${b.caregiverId})">💬 Chat</button>
+                </div>
             </div>
         `).join('');
 
