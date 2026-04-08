@@ -650,7 +650,8 @@ function confirmBooking(caregiverId) {
             </div>
             <h2>Reserva Confirmada!</h2>
             <p>O pagamento foi processado e ${cg.name} já foi notificada.</p>
-            <button class="btn-primary" style="margin-top: 20px;" onclick="closeDrawer()">Ok, entendi</button>
+                <button class="btn-primary" style="margin-top: 20px;" onclick="closeDrawer()">Ok, entendi</button>
+                <button class="btn-secondary" style="margin-top: 20px; margin-left: 10px;" onclick="openChatDrawer(${caregiverId})">Iniciar Chat</button>
         </div>
     `);
 }
@@ -792,4 +793,114 @@ function registerCaregiver() {
             <button class="btn-primary" style="margin-top: 20px;" onclick="location.reload()">Ver Lista Atualizada</button>
         </div>
     `);
+}
+
+// Chat Functionality
+let currentChatCaregiverId = null;
+let chatMessages = [];
+
+function openChatDrawer(caregiverId) {
+    currentChatCaregiverId = caregiverId;
+    const cg = caregivers.find(c => c.id === caregiverId);
+    chatMessages = [];
+    
+    // Mensagem inicial da cuidadora
+    chatMessages.push({
+        type: 'received',
+        text: `Olá! Tudo bem? Fico feliz em cuidar de você. Estou pronta para começar! 😊`,
+        time: new Date()
+    });
+    
+    renderChatDrawer(cg);
+}
+
+function renderChatDrawer(cg) {
+    const messagesHtml = chatMessages.map(msg => `
+        <div class="message ${msg.type}">
+            <div>
+                <div class="message-bubble">${msg.text}</div>
+                <div class="message-time">${msg.time.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}</div>
+            </div>
+        </div>
+    `).join('');
+    
+    openDrawer(`
+        <div class="chat-container">
+            <div class="chat-header">
+                <img src="${cg.avatar}" class="chat-header-avatar" alt="${cg.name}">
+                <div class="chat-header-info">
+                    <h3>${cg.name}</h3>
+                    <div class="status">
+                        <span class="status-dot"></span>
+                        Online
+                    </div>
+                </div>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                ${messagesHtml}
+            </div>
+            <div class="chat-input-area">
+                <input type="text" id="chat-input" placeholder="Digite sua mensagem..." />
+                <button onclick="sendChatMessage()">↑</button>
+            </div>
+        </div>
+    `);
+    
+    // Scroll para a última mensagem
+    setTimeout(() => {
+        const chatMessagesDiv = document.getElementById('chat-messages');
+        if (chatMessagesDiv) {
+            chatMessagesDiv.scrollTop = chatMessagesDiv.scrollHeight;
+        }
+        
+        // Focus no input
+        const chatInput = document.getElementById('chat-input');
+        if (chatInput) {
+            chatInput.focus();
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendChatMessage();
+            });
+        }
+    }, 100);
+}
+
+function sendChatMessage() {
+    const chatInput = document.getElementById('chat-input');
+    const text = chatInput.value.trim();
+    
+    if (!text) return;
+    
+    // Adicionar mensagem do usuário
+    chatMessages.push({
+        type: 'sent',
+        text: text,
+        time: new Date()
+    });
+    
+    chatInput.value = '';
+    
+    // Atualizar UI
+    const cg = caregivers.find(c => c.id === currentChatCaregiverId);
+    renderChatDrawer(cg);
+    
+    // Simular resposta da cuidadora após 1 segundo
+    setTimeout(() => {
+        const responses = [
+            "Entendi! Vou anotar isso.",
+            "Tudo certo! Deixa comigo.",
+            "Perfeito! Você pode contar comigo.",
+            "Sem problemas! Estarei atenta.",
+            "Ótimo! Vou cuidar com carinho.",
+            "Combinado! Até logo!"
+        ];
+        
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        chatMessages.push({
+            type: 'received',
+            text: randomResponse,
+            time: new Date()
+        });
+        
+        renderChatDrawer(cg);
+    }, 1000);
 }
