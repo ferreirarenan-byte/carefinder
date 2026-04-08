@@ -434,11 +434,23 @@ function openDrawer(content) {
     drawer.classList.add('open');
     drawerOverlay.style.display = 'block';
     lucide.createIcons();
+    setupDrawerClose();
 }
 
 function closeDrawer() {
     drawer.classList.remove('open');
     drawerOverlay.style.display = 'none';
+    drawerContent.innerHTML = '';
+}
+
+// Fechar drawer ao clicar no overlay
+function setupDrawerClose() {
+    // Remover listeners antigos para evitar duplicação
+    const newCloseBtn = document.getElementById('close-drawer');
+    if (newCloseBtn) {
+        newCloseBtn.replaceWith(newCloseBtn.cloneNode(true));
+        document.getElementById('close-drawer').addEventListener('click', closeDrawer);
+    }
 }
 
 // Logica de Filtros
