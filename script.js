@@ -310,7 +310,7 @@ function renderCaregivers(list) {
                     <h4>${cg.name}</h4>
                     <div class="rating">
                         <i data-lucide="star" style="width:14px; fill: #ff8c00;"></i>
-                        <span>${cg.rating} (${cg.reviews})</span>
+                        <span>${cg.rating} (<a href="#" onclick="event.stopPropagation(); openReviewsDrawer(${cg.id}); return false;" style="text-decoration: underline; color: var(--teal); cursor: pointer;">${cg.reviews} avaliações</a>)</span>
                     </div>
                 </div>
             </div>
@@ -323,8 +323,7 @@ function renderCaregivers(list) {
                 </div>
             </div>
             <div class="card-actions">
-                <button class="btn-secondary" onclick="openReviewsDrawer(${cg.id})">Avaliações</button>
-                <button class="btn-primary" onclick="openCaregiverDetail(${cg.id})">Ver Detalhes</button>
+                <button class="btn-primary" onclick="event.stopPropagation(); openCaregiverDetail(${cg.id})" style="width: 100%; padding: 12px;">Ver Detalhes</button>
             </div>
         `;
         card.addEventListener('click', () => openCaregiverDetail(cg.id));
