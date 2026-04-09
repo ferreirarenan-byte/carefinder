@@ -13,7 +13,7 @@
     <!-- Leaflet Maps (Open Source) -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <link rel="stylesheet" href="style.css?v=8.0">
+    <link rel="stylesheet" href="style.css?v=9.0">
 </head>
 <body>
     <header class="main-header">
@@ -94,7 +94,9 @@
             
             <div class="list-header">
                 <h3>Cuidadores Disponíveis</h3>
-                <button id="btn-my-bookings" class="btn-text-link">Minhas Reservas</button>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <button id="btn-my-bookings" class="btn-outline" style="width: 100%; padding: 12px 20px; font-size: 1rem;">📋 Minhas Reservas</button>
             </div>
             
             <div id="caregivers-list" class="caregivers-grid">
@@ -114,7 +116,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=8.0"></script>
+    <script src="script.js?v=9.0"></script>
     <script>
         // Inicializar ícones do Lucide após carregamento
         document.addEventListener('DOMContentLoaded', () => {
