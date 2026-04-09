@@ -651,8 +651,8 @@ function confirmBooking(caregiverId) {
             </div>
             <h2>Reserva Confirmada!</h2>
             <p>O pagamento foi processado e ${cg.name} já foi notificada.</p>
-                <button class="btn-primary" style="margin-top: 20px;" onclick="closeDrawer()">Ok, entendi</button>
-                <button class="btn-secondary" style="margin-top: 20px; margin-left: 10px;" onclick="openChatDrawer(${caregiverId})">Iniciar Chat</button>
+                <button class="btn-primary" style="margin-top: 20px; width: 100%;" onclick="closeDrawer(); setTimeout(() => openMyBookingsDrawer(), 300);">Ver Minha Reserva</button>
+            <button class="btn-secondary" style="margin-top: 10px; width: 100%;" onclick="openChatDrawer(${caregiverId})">💬 Iniciar Chat</button>
         </div>
     `);
 }
@@ -667,7 +667,8 @@ function openMyBookingsDrawer() {
     let bookingsHtml = bookings.length === 0 
         ? '<p style="text-align:center; color:var(--text-muted); margin-top:40px;">Você ainda não tem reservas.</p>'
         : bookings.map(b => `
-            <div class="glass" style="padding: 15px; margin-bottom: 15px; border-left: 4px solid var(--teal);">
+            <div class="glass" style="padding: 15px; margin-bottom: 15px; border-left: 4px solid ${b.isNew ? 'var(--orange)' : 'var(--teal)'}; position: relative;">
+                ${b.isNew ? '<span style="position: absolute; top: 10px; right: 10px; background: var(--orange); color: white; padding: 4px 8px; border-radius: 12px; font-size: 0.65rem; font-weight: 700;">NOVA</span>' : ''}
                 <div style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
                     <img src="${b.caregiverAvatar}" style="width:40px; height:40px; border-radius:50%">
                     <div>
